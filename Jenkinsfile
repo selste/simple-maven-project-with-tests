@@ -9,20 +9,20 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: 'testng']], userRemoteConfigs: [[url: 'https://github.com/selste/simple-maven-project-with-tests']]])
+        checkout([$class: 'GitSCM', branches: [[name: 'findbugs']], userRemoteConfigs: [[url: 'https://github.com/selste/simple-maven-project-with-tests']]])
       }
     }
 
     stage('Build') {
       steps {
-        sh 'mvn clean compile'
+        bat 'mvn clean compile'
       }
     }
 
     stage('Test') {
       steps {
-        sh 'mvn test'
-        step([$class: 'Publisher', reportFilenamePattern: '**/target/surefire-reports/testng-results.xml', showFailedBuilds: true])
+        bat 'mvn test'
+        findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: '**/target/findbugsXml.xml', unHealthy: ''
       }
     }
   }

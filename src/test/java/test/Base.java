@@ -1,15 +1,16 @@
 package test;
 
-import org.testng.SkipException;
+import static org.junit.Assert.*;
+import org.junit.internal.AssumptionViolatedException;
 
 class Base {
 
     protected void run() {
         double r = Math.random();
         if (r < 0.1) {
-            assert false : "oops";
+            fail("oops");
         } else if (r < 0.2) {
-            throw new SkipException("skipping");
+            throw new AssumptionViolatedException("skipping");
         }
     }
 
