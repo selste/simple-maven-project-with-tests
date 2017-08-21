@@ -1,0 +1,28 @@
+#!groovy
+
+stage 'Checkout'
+node {
+  wrap([$class: 'TimestamperBuildWrapper']) {
+    checkout([$class: 'GitSCM', branches: [[name: 'scripted']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/selste/simple-maven-project-with-tests']]])
+  }
+}
+
+stage 'Build'
+node {
+  wrap([$class: 'TimestamperBuildWrapper']) {
+    withMaven(jdk: 'openjdk 1.8.0', maven: 'maven 3.5.0') {
+      sh 'mvn clean compile'
+    }
+  }
+}
+
+stage 'Test'
+node {
+  wrap([$class: 'TimestamperBuildWrapper']) {
+    withMaven(jdk: 'openjdk 1.8.0', maven: 'maven 3.5.0') {
+      sh 'mvn test'
+
+      findbugs canComputeNew: false, defaultEncoding: '', excludePattern: '', healthy: '', includePattern: '', pattern: '**/target/findbugsXml.xml', unHealthy: ''
+    }
+  }
+}
