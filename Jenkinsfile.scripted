@@ -3,7 +3,7 @@
 stage 'Checkout'
 node {
   wrap([$class: 'TimestamperBuildWrapper']) {
-    checkout([$class: 'GitSCM', branches: [[name: 'scripted']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/selste/simple-maven-project-with-tests']]])
+    checkout([$class: 'GitSCM', branches: [[name: 'findbugs']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/selste/simple-maven-project-with-tests']]])
   }
 }
 
